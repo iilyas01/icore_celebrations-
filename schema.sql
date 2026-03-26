@@ -1,0 +1,113 @@
+-- USERS
+CREATE TABLE USERS (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(150) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    role ENUM('customer','admin') NOT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- THEMES
+CREATE TABLE THEMES (
+    theme_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    description TEXT,
+    image_url VARCHAR(255) NOT NULL
+);
+
+-- VENUES
+CREATE TABLE VENUES (
+    venue_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(150) NOT NULL,
+    location VARCHAR(255) NOT NULL,
+    price_per_day DECIMAL(10,2) NOT NULL,
+    vendor_link VARCHAR(255),
+    capacity INT NOT NULL
+);
+
+-- SERVICES
+CREATE TABLE SERVICES (
+    service_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    category VARCHAR(100) NOT NULL,
+    estimated_price DECIMAL(10,2) NOT NULL,
+    vendor_link VARCHAR(255)
+);
+
+-- PACKAGES
+CREATE TABLE PACKAGES (
+    package_id INT AUTO_INCREMENT PRIMARY KEY,
+    theme_id INT NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    price DECIMAL(10,2) NOT NULL,
+    FOREIGN KEY (theme_id) REFERENCES THEMES(theme_id)
+        ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+-- PLANS
+CREATE TABLE PLANS (
+    plan_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    theme_id INT NOT NULL,
+    venue_id INT NOT NULL,
+    event_date DATE NOT NULL,
+    guest_count INT NOT NULL,
+    total_estimate DECIMAL(10,2) NOT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES USERS(user_id)
+        ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (theme_id) REFERENCES THEMES(theme_id)
+        ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (venue_id) REFERENCES VENUES(venue_id)
+        ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+-- PLAN_PACKAGES 
+CREATE TABLE PLAN_PACKAGES (
+    plan_id INT NOT NULL,
+    package_id INT NOT NULL,
+    quantity INT NOT NULL,
+    total DECIMAL(10,2) NOT NULL,
+    PRIMARY KEY (plan_id, package_id),
+    FOREIGN KEY (plan_id) REFERENCES PLANS(plan_id)
+        ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (package_id) REFERENCES PACKAGES(package_id)
+        ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+-- PLAN_SERVICES 
+CREATE TABLE PLAN_SERVICES (
+    plan_service_id INT AUTO_INCREMENT PRIMARY KEY,
+    plan_id INT NOT NULL,
+    service_id INT NOT NULL,
+    quantity INT NOT NULL,
+    FOREIGN KEY (plan_id) REFERENCES PLANS(plan_id)
+        ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (service_id) REFERENCES SERVICES(service_id)
+        ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+-- ORDERS
+CREATE TABLE ORDERS (
+    order_id INT AUTO_INCREMENT PRIMARY KEY,
+    plan_id INT NOT NULL,
+    user_id INT NOT NULL,
+    order_status ENUM('pending','confirmed','cancelled') NOT NULL,
+    payment_status ENUM('paid','unpaid','refunded') NOT NULL,
+    submitted_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (plan_id) REFERENCES PLANS(plan_id)
+        ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES USERS(user_id)
+        ON DELETE CASCADE
+);
+
+-- ORDER_APPROVALS
+CREATE TABLE ORDER_APPROVALS (
+    approval_id INT AUTO_INCREMENT PRIMARY KEY,
+    order_id INT NOT NULL,
+    decision ENUM('approved','rejected') NOT NULL,
+    decided_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (order_id) REFERENCES ORDERS(order_id)
+        ON DELETE CASCADE
+);
