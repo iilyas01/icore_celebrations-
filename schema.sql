@@ -45,6 +45,10 @@ CREATE TABLE PACKAGES (
     FOREIGN KEY (theme_id) REFERENCES THEMES(theme_id)
         ON DELETE CASCADE ON UPDATE CASCADE
 );
+
+ALTER TABLE PACKAGES
+ADD description TEXT NOT NULL;
+
 -- PLANS
 CREATE TABLE PLANS (
     plan_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -178,42 +182,58 @@ INSERT INTO THEMES (name, description, image_url) VALUES
 
 SELECT * FROM THEMES;
 
-INSERT INTO PACKAGES (theme_id, name, price) VALUES
+INSERT INTO PACKAGES (theme_id, name, price, description) VALUES
+(1, 'Superhero Basic Kit', 300.00, 'Includes  masks, themed decor, and basic hero activities.'),
+(1, 'Superhero Mega Experience', 520.00, 'Full superhero training, premium décor, and character appearance.'),
 
-(1, 'Superhero Basic Kit', 150.00),
-(1, 'Superhero Mega Experience', 320.00),
-(2, 'Princess Royal Package', 250.00),
-(2, 'Princess Castle Deluxe', 480.00),
-(3, 'Dino Explorer Pack', 180.00),
-(3, 'Jurassic Adventure Deluxe', 400.00),
-(4, 'Galaxy Starter Pack', 170.00),
-(4, 'Full Space Mission Experience', 360.00),
-(5, 'Underwater Fun Pack', 160.00),
-(5, 'Mermaid Fantasy Deluxe', 340.00),
-(6, 'Safari Adventure Pack', 190.00),
-(6, 'Ultimate Jungle Safari', 380.00),
-(7, 'Cartoon Carnival Fun Pack', 140.00),
-(7, 'Cartoon Carnival Premium', 290.00),
-(8, 'Construction Crew Kit', 160.00),
-(8, 'Builder Mega Zone', 330.00),
-(9, 'Fairy Garden Starter', 150.00),
-(9, 'Enchanted Fairyland Deluxe', 310.00),
-(10, 'Neon Glow Essentials', 230.00),
-(10, 'Full Glow Party Experience', 450.00),
-(11, 'K-Pop Dance Starter', 220.00),
-(11, 'K-Pop Stage Experience', 420.00),
-(12, 'Gaming Arena Basic', 260.00),
-(12, 'Pro Gamer Setup', 520.00),
-(13, 'Red Carpet Essentials', 300.00),
-(13, 'Hollywood Premiere Deluxe', 600.00),
-(14, 'Sports Mania Starter', 210.00),
-(14, 'Ultimate Sports Arena', 430.00),
-(15, 'Mini Music Festival Pack', 280.00),
-(15, 'Full Festival Experience', 550.00),
-(16, 'Black & Gold Elegant Set', 350.00),
-(16, 'Luxury Black & Gold Experience', 700.00),
-(17, 'Tropical Luau Essentials', 260.00),
-(17, 'Full Hawaiian Luau Experience', 540.00); 
+(2, 'Princess Royal Package', 350.00, 'Elegant princess décor, tiara, gown, and royal-themed games.'),
+(2, 'Princess Castle Deluxe', 850.00, 'Full castle setup, princess makeover, storytelling, and deluxe decorations.'),
 
-SELECT * FROM PACKAGES; 
+(3, 'Dino Explorer Pack', 380.00, 'Dinosaur-themed décor, explorer hats, fossil dig activities, and games.'),
+(3, 'Jurassic Adventure Deluxe', 700.00, 'Large dino props, interactive dig site, adventure challenges, and premium décor.'),
+
+(4, 'Galaxy Starter Pack', 270.00, 'Space-themed decorations, astronaut props, and simple cosmic games.'),
+(4, 'Full Space Mission Experience', 460.00, 'Mission control setup, space challenges, glowing décor, and astronaut training.'),
+
+(5, 'Underwater Fun Pack', 360.00, 'Ocean-themed décor, bubbles, sea creature props, and underwater games.'),
+(5, 'Mermaid Fantasy Deluxe', 640.00, 'Mermaid meet-and-greet, shimmering décor, themed crafts, and premium props.'),
+
+(6, 'Safari Adventure Pack', 290.00, 'Safari décor, explorer hats, animal games, and jungle props.'),
+(6, 'Ultimate Jungle Safari', 580.00, 'Large jungle setup, animal encounters (props), adventure challenges, and premium décor.'),
+
+(7, 'Cartoon Carnival Fun Pack', 240.00, 'Colorful carnival décor, cartoon props, and fun mini-games.'),
+(7, 'Cartoon Carnival Premium', 390.00, 'Full carnival setup, booths, premium props, and character-themed activities.'),
+
+(8, 'Construction Crew Kit', 360.00, 'Construction décor, toy tools, safety vests, and building activities.'),
+(8, 'Builder Mega Zone', 630.00, 'Large construction zone setup, obstacle course, premium props, and team challenges.'),
+
+(9, 'Fairy Garden Starter', 350.00, 'Whimsical décor, fairy wings, and magical garden activities.'),
+(9, 'Enchanted Fairyland Deluxe', 610.00, 'Full fairyland setup, glowing décor, fairy visit, and enchanted crafts.'),
+
+(10, 'Neon Glow Essentials', 430.00, 'Glow sticks, neon décor, UV lights, and glow games.'),
+(10, 'Full Glow Party Experience', 650.00, 'Complete glow room setup, premium lighting, neon props, and glow activities.'),
+
+(11, 'K-Pop Dance Starter', 320.00, 'K-pop décor, basic dance session, and themed props.'),
+(11, 'K-Pop Stage Experience', 520.00, 'Stage setup, choreography session, lighting effects, and premium décor.'),
+
+(12, 'Gaming Arena Basic', 360.00, 'Gaming décor, consoles setup, and basic tournament activities.'),
+(12, 'Pro Gamer Setup', 620.00, 'Full gaming arena, LED décor, multiple stations, and competitive tournament features.'),
+
+(13, 'Red Carpet Essentials', 300.00, 'Hollywood décor, red carpet, photo backdrop, and glam props.'),
+(13, 'Hollywood Premiere Deluxe', 800.00, 'Full premiere setup, spotlight décor, VIP props, and premium photo experience.'),
+
+(14, 'Sports Mania Starter', 210.00, 'Sports décor, mini-games, and team challenges.'),
+(14, 'Ultimate Sports Arena', 530.00, 'Arena-style setup, multiple sports stations, premium props, and competitions.'),
+
+(15, 'Mini Music Festival Pack', 280.00, 'Festival décor, mini stage, music props, and fun activities.'),
+(15, 'Full Festival Experience', 550.00, 'Large festival setup, lighting, stage props, and premium music-themed activities.'),
+
+(16, 'Black & Gold Elegant Set', 350.00, 'Elegant black and gold décor, table settings, and premium accents.'),
+(16, 'Luxury Black & Gold Experience', 700.00, 'Full luxury setup, premium décor, lighting, and upscale experience.'),
+
+(17, 'Tropical Luau Essentials', 260.00, 'Luau décor, leis, tiki props, and tropical games.'),
+(17, 'Full Hawaiian Luau Experience', 580.00, 'Complete luau setup, premium décor, tropical activities, and themed entertainment.');
+
+
+SELECT * FROM PACKAGES;
 
