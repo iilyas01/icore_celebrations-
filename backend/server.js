@@ -1,29 +1,26 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const db = require('./db');
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-const PORT = process.env.PORT || 5000;
+// Routes
+app.use('/api/auth', require('./routes/auth'));
 
 app.get('/', (req, res) => {
   res.json({ message: 'iCore Celebrations API is running' });
 });
 
+const PORT = process.env.PORT || 3001;
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
+  db.query('SELECT 1')
+    .then(() => console.log('✅ Database connected successfully'))
+    .catch(err => console.error('❌ Database connection failed:', err.message));
 });
 
-process.stdin.resume();
-
-const db = require('./db');
-
-db.query('SELECT 1')
-  .then(() => console.log('✅ Database connected successfully'))
-  .catch(err => console.error('❌ Database connection failed:', err.message));
-
-  db.query('SELECT DATABASE()')
-  .then(([rows]) => console.log(rows));
