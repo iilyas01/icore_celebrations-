@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('../db');
 
-// GET /api/themes - get all themes
+// GET api themes - get all themes
 router.get('/', async (req, res) => {
   try {
     const [rows] = await db.query('SELECT * FROM THEMES');
@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// GET /api/themes/:id - get single theme
+// GET api themes with id - get single theme
 router.get('/:id', async (req, res) => {
   try {
     const [rows] = await db.query('SELECT * FROM THEMES WHERE theme_id = ?', [req.params.id]);
