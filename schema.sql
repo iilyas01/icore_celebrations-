@@ -36,6 +36,7 @@ CREATE TABLE SERVICES (
     estimated_price DECIMAL(10,2) NOT NULL,
     vendor_link VARCHAR(255)
 );
+
 -- PACKAGES
 CREATE TABLE PACKAGES (
     package_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -66,6 +67,7 @@ CREATE TABLE PLANS (
     FOREIGN KEY (venue_id) REFERENCES VENUES(venue_id)
         ON DELETE CASCADE ON UPDATE CASCADE
 );
+
 -- PLAN_PACKAGES 
 CREATE TABLE PLAN_PACKAGES (
     plan_id INT NOT NULL,
@@ -78,6 +80,7 @@ CREATE TABLE PLAN_PACKAGES (
     FOREIGN KEY (package_id) REFERENCES PACKAGES(package_id)
         ON DELETE CASCADE ON UPDATE CASCADE
 );
+
 -- PLAN_SERVICES 
 CREATE TABLE PLAN_SERVICES (
     plan_service_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -89,6 +92,7 @@ CREATE TABLE PLAN_SERVICES (
     FOREIGN KEY (service_id) REFERENCES SERVICES(service_id)
         ON DELETE CASCADE ON UPDATE CASCADE
 );
+
 -- ORDERS
 CREATE TABLE ORDERS (
     order_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -102,6 +106,7 @@ CREATE TABLE ORDERS (
     FOREIGN KEY (user_id) REFERENCES USERS(user_id)
         ON DELETE CASCADE
 );
+
 -- ORDER_APPROVALS
 CREATE TABLE ORDER_APPROVALS (
     approval_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -234,6 +239,8 @@ INSERT INTO PACKAGES (theme_id, name, price, description) VALUES
 (17, 'Tropical Luau Essentials', 260.00, 'Luau décor, leis, tiki props, and tropical games.'),
 (17, 'Full Hawaiian Luau Experience', 580.00, 'Complete luau setup, premium décor, tropical activities, and themed entertainment.');
 
-
 SELECT * FROM PACKAGES;
+
+SHOW DATABASES;
+SELECT * FROM USERS;
 
