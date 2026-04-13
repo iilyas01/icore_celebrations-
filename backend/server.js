@@ -15,7 +15,8 @@ app.use(express.json());
 // Routes
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/themes', require('./routes/themes'));
-app.use('/api/venues', require('./routes/venues')); 
+app.use("/api/venues", require("./routes/venues"));
+app.use("/api/services", require("./routes/services")); 
 
 // Basic route to check if server is running
 app.get('/', (req, res) => {
