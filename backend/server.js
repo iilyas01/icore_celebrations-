@@ -12,11 +12,12 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Routes
+// Routes 
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/themes', require('./routes/themes'));
-app.use("/api/venues", require("./routes/venues"));
-app.use("/api/services", require("./routes/services")); 
+app.use('/api/venues', require('./routes/venues')); 
+app.use('/api/services', require('./routes/services'));
+app.use('/api/packages', require('./routes/packages'));
 
 // Basic route to check if server is running
 app.get('/', (req, res) => {
