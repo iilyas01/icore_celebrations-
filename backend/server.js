@@ -18,6 +18,7 @@ app.use('/api/themes', require('./routes/themes'));
 app.use('/api/venues', require('./routes/venues')); 
 app.use('/api/services', require('./routes/services'));
 app.use('/api/packages', require('./routes/packages'));
+app.use('/api/plans', require('./routes/plans'));
 
 // Basic route to check if server is running
 app.get('/', (req, res) => {
