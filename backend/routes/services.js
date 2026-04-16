@@ -3,6 +3,7 @@ const router = express.Router();
 const db = require('../db');
 
 // GET /api/services - Get all services
+// This endpoint returns all services available in the system. Services are individual items that can be added to a plan. 
 router.get('/', async (req, res) => {
   try {
     const [services] = await db.query('SELECT * FROM SERVICES');
@@ -14,6 +15,7 @@ router.get('/', async (req, res) => {
 }); 
 
 // GET api services id - Get a single service by ID
+// This endpoint returns details of a single service based on its ID.
 router.get('/:id', async (req, res) => {
   const { id } = req.params;
   try {

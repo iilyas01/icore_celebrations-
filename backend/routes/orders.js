@@ -8,6 +8,7 @@ router.post('/', auth, async (req, res) => {
   const user_id = req.user.user_id;
 
   try {
+    // Get the most recent plan for this user
     const [plans] = await db.query(
       'SELECT * FROM PLANS WHERE user_id = ? ORDER BY created_at DESC LIMIT 1',
       [user_id]
@@ -28,7 +29,7 @@ router.post('/', auth, async (req, res) => {
     if (existing.length > 0) {
       return res.status(409).json({ error: 'Order already exists for this plan' });
     }
-
+  
     const [result] = await db.query(
       'INSERT INTO ORDERS (plan_id, user_id, order_status, payment_status) VALUES (?, ?, "pending", "unpaid")',
       [plan_id, user_id]
@@ -42,6 +43,8 @@ router.post('/', auth, async (req, res) => {
 });
 
 // GET /api/orders/my - get current user's orders
+// This endpoint retrieves all orders for the authenticated user, including details from the related PLANS, THEMES, and VENUES tables. 
+// It uses JOINs to gather all relevant information in a single query and returns the orders sorted by submission date in descending order.
 router.get('/my', auth, async (req, res) => {
   const user_id = req.user.user_id;
 

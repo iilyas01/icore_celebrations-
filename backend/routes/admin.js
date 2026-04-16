@@ -4,6 +4,7 @@ const db = require('../db');
 const auth = require('../middleware/auth');
 
 // Admin only middleware
+// Checks if the user is an admin before allowing access to admin routes 
 const adminOnly = (req, res, next) => {
   if (req.user.role !== 'admin') {
     return res.status(403).json({ error: 'Admin access required' });
@@ -12,6 +13,7 @@ const adminOnly = (req, res, next) => {
 };
 
 // GET /api/admin/orders - get all orders
+// Admins can view all orders with user and plan details, sorted by submission date 
 router.get('/orders', auth, adminOnly, async (req, res) => {
   try {
     const [orders] = await db.query(`
@@ -33,6 +35,8 @@ router.get('/orders', auth, adminOnly, async (req, res) => {
 });
 
 // POST /api/admin/orders/:id/approve
+// This endpoint allows admins to approve an order by updating its status to "confirmed" and recording the approval decision in the ORDER_APPROVALS table. 
+// It first checks if the order exists, and returns a success message. 
 router.post('/orders/:id/approve', auth, adminOnly, async (req, res) => {
   try {
     const [order] = await db.query('SELECT * FROM ORDERS WHERE order_id = ?', [req.params.id]);
@@ -55,6 +59,7 @@ router.post('/orders/:id/approve', auth, adminOnly, async (req, res) => {
 });
 
 // POST /api/admin/orders/:id/reject
+// This endpoint allows admins to reject an order by updating its status to "cancelled" and recording the rejection decision in the ORDER_APPROVALS table.
 router.post('/orders/:id/reject', auth, adminOnly, async (req, res) => {
   try {
     const [order] = await db.query('SELECT * FROM ORDERS WHERE order_id = ?', [req.params.id]);

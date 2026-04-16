@@ -3,6 +3,7 @@ const router = express.Router();
 const db = require('../db'); 
 
 // GET /api/venues - Get all venues
+// This endpoint returns a list of all venues available in the system. Each venue has a unique ID and a name.
 router.get('/', async (req, res) => {
   try {
     const [venues] = await db.query('SELECT * FROM VENUES');
@@ -14,6 +15,7 @@ router.get('/', async (req, res) => {
 }); 
 
 // GET api venues id - Get a single venue by ID 
+// This endpoint returns details of a single venue based on its ID. If the venue is not found, it returns a 404 error.
 router.get('/:id', async (req, res) => {
   const { id } = req.params;
   try {
