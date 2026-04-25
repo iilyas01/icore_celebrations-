@@ -28,6 +28,11 @@ CREATE TABLE VENUES (
     vendor_link VARCHAR(255),
     capacity INT NOT NULL
 );
+
+ALTER TABLE venues
+ADD CONSTRAINT unique_venue_name UNIQUE (name),
+ADD CONSTRAINT unique_venue_link UNIQUE (vendor_link);
+
 -- SERVICES
 CREATE TABLE SERVICES (
     service_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -147,21 +152,59 @@ INSERT INTO SERVICES (name, category, estimated_price, vendor_link) VALUES
 -- Bounce Houses & Inflatables
 ('Dave\'s Bounce & Play', 'Bounce House Rental', 250.00, 'https://davesbounceandplay.com'); 
 
+INSERT IGNORE INTO SERVICES (name, category, estimated_price, vendor_link) VALUES
+-- VIDEO GAME TRUCKS & GAMING
+('Rolling Video Games Long Island', 'Video Game Truck', 550.00, 'https://rollingvideogameslongisland.com'),
+('GameTruck Long Island', 'Video Game Truck', 575.00, 'https://gametruckparty.com/long-island'),
+
+-- DJ & PARTY ENTERTAINMENT
+('DJ Zeke Entertainment', 'DJ Services', 800.00, 'https://djzeke.com'),
+
+-- PHOTO BOOTHS & MEDIA
+('TapSnap 1165', 'Photo Booth', 700.00, 'https://tapsnap.net'),
+
+-- GLAM, BEAUTY & SPA PARTIES
+('Glitter & Glam LI', 'Spa Party', 350.00, 'https://glitterandglamspa.com'); 
+
 SELECT * FROM SERVICES;
 
-INSERT INTO VENUES (name, location, price_per_day, vendor_link, capacity) VALUES
+INSERT IGNORE INTO VENUES (name, location, price_per_day, vendor_link, capacity) VALUES
 
-('My Gym Children\'s Fitness Center - Stony Brook', 'Stony Brook, NY', 450.00, 'https://www.mygym.com/stonybrook', 40),
+('My Gym Children\'s Fitness Center - Stony Brook', 'Stony Brook, NY', 450.00, 'https://www.mygym.com/stonybrook', 10),
 
-('Social Play Haus', '200 Express St, Plainview, NY', 900.00, 'https://www.socialplayhaus.com', 80),
+('Social Play Haus', '200 Express St, Plainview, NY', 900.00, 'https://www.socialplayhaus.com', 20),
 
-('Bowlero Commack', '2183 Jericho Turnpike, Commack, NY', 1500.00, 'https://www.bowlero.com/location/bowlero-commack', 200),
+('Bowlero Commack', '2183 Jericho Turnpike, Commack, NY', 1500.00, 'https://www.bowlero.com/location/bowlero-commack', 30),
 
-('Dave & Buster\'s Islandia', '1856 Veterans Memorial Hwy, Islandia, NY', 2000.00, 'https://www.daveandbusters.com/locations/islandia', 250),
+('Dave & Buster\'s Islandia', '1856 Veterans Memorial Hwy, Islandia, NY', 2000.00, 'https://www.daveandbusters.com/locations/islandia', 40),
 
-('Hibernian Hall', '85 Grand Ave, Massapequa, NY', 550.00, 'https://www.aohdiv15.com', 100),
+('Hibernian Hall', '85 Grand Ave, Massapequa, NY', 550.00, 'https://www.aohdiv15.com', 15),
 
-('The Party Lab Long Island', '3728 Park Ave, Wantagh, NY', 850.00, 'https://partylablongisland.com', 60);
+('The Party Lab Long Island', '3728 Park Ave, Wantagh, NY', 850.00, 'https://partylablongisland.com', 20);
+
+INSERT IGNORE INTO VENUES (name, location, price_per_day, vendor_link, capacity) VALUES
+-- Valley Stream
+('Pump It Up – Valley Stream', '225 E Sunrise Hwy, Valley Stream, NY', 850.00, 'https://www.pumpitupparty.com/valley-stream-ny', 25),
+('Laser Bounce Family Fun Center', '2710 Hempstead Turnpike, Levittown, NY', 1150.00, 'https://www.laserbounce.com', 30),
+
+-- Elmont / Floral Park
+('Active Kidz Party Place', '200 Robbins Ln, Jericho, NY', 970.00, 'https://www.activekidzlongisland.com', 30),
+
+-- Westbury
+('Chuck E. Cheese – Westbury', '1350 Old Country Rd, Westbury, NY', 1150.00, 'https://www.chuckecheese.com', 45),
+
+-- Farmingdale
+('Adventureland Amusement Park', '2245 Broadhollow Rd, Farmingdale, NY', 3000.00, 'https://www.adventureland.us', 50),
+('RPM Raceway – Farmingdale', '40 Daniel St, Farmingdale, NY', 2500.00, 'https://www.rpmraceway.com', 30),
+
+-- New Hyde Park / Hillside Ave
+('Safari Adventure Party Room', '1074 Pulaski St, Riverhead, NY', 900.00, 'https://thesafariadventure.com', 20);
+
+INSERT IGNORE INTO VENUES (name, location, price_per_day, vendor_link, capacity) VALUES
+('The Inn at New Hyde Park', '214 Jericho Turnpike, New Hyde Park, NY', 3500.00, 'https://www.innatnhp.com', 450),
+('Jericho Terrace', '249 Jericho Turnpike, Mineola, NY', 4000.00, 'https://www.jerichoterrace.com', 400),
+('The Sterling Caterers', '345 Hicksville Rd, Bethpage, NY', 3000.00, 'https://www.thesterlingcaterers.com', 350),
+('Crest Hollow Country Club', '8325 Jericho Turnpike, Woodbury, NY', 5000.00, 'https://www.cresthollow.com', 400); 
 
 SELECT * FROM VENUES;
 
@@ -242,5 +285,5 @@ INSERT INTO PACKAGES (theme_id, name, price, description) VALUES
 SELECT * FROM PACKAGES;
 
 SHOW DATABASES;
-SELECT * FROM USERS;
+
 
