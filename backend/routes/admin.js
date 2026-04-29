@@ -44,8 +44,10 @@ router.post('/orders/:id/approve', auth, adminOnly, async (req, res) => {
       return res.status(404).json({ error: 'Order not found' });
     }
 
-    await db.query('UPDATE ORDERS SET order_status = "confirmed" WHERE order_id = ?', [req.params.id]);
-
+    await db.query(
+      'UPDATE ORDERS SET order_status = "confirmed", payment_status = "paid" WHERE order_id = ?', 
+      [req.params.id]
+    );
     await db.query(
       'INSERT INTO ORDER_APPROVALS (order_id, decision) VALUES (?, "approved")',
       [req.params.id]
@@ -67,8 +69,10 @@ router.post('/orders/:id/reject', auth, adminOnly, async (req, res) => {
       return res.status(404).json({ error: 'Order not found' });
     }
 
-    await db.query('UPDATE ORDERS SET order_status = "cancelled" WHERE order_id = ?', [req.params.id]);
-
+    await db.query(
+      'UPDATE ORDERS SET order_status = "cancelled", payment_status = "refunded" WHERE order_id = ?',
+      [req.params.id]
+    );
     await db.query(
       'INSERT INTO ORDER_APPROVALS (order_id, decision) VALUES (?, "rejected")',
       [req.params.id]
@@ -77,6 +81,69 @@ router.post('/orders/:id/reject', auth, adminOnly, async (req, res) => {
     res.json({ message: 'Order rejected successfully' });
   } catch (err) {
     console.error('Reject order error:', err.message);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+// DELETE /api/admin/themes/:id
+router.delete('/themes/:id', auth, adminOnly, async (req, res) => {
+  try {
+    const [theme] = await db.query('SELECT * FROM THEMES WHERE theme_id = ?', [req.params.id]);
+    if (theme.length === 0) {
+      return res.status(404).json({ error: 'Theme not found' });
+    }
+
+    await db.query('DELETE FROM THEMES WHERE theme_id = ?', [req.params.id]);
+    res.json({ message: 'Theme deleted successfully' });
+  } catch (err) {
+    console.error('Delete theme error:', err.message);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// DELETE /api/admin/venues/:id
+router.delete('/venues/:id', auth, adminOnly, async (req, res) => {
+  try {
+    const [venue] = await db.query('SELECT * FROM VENUES WHERE venue_id = ?', [req.params.id]);
+    if (venue.length === 0) {
+      return res.status(404).json({ error: 'Venue not found' });
+    }
+
+    await db.query('DELETE FROM VENUES WHERE venue_id = ?', [req.params.id]);
+    res.json({ message: 'Venue deleted successfully' });
+  } catch (err) {
+    console.error('Delete venue error:', err.message);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// DELETE /api/admin/services/:id
+router.delete('/services/:id', auth, adminOnly, async (req, res) => {
+  try {
+    const [service] = await db.query('SELECT * FROM SERVICES WHERE service_id = ?', [req.params.id]);
+    if (service.length === 0) {
+      return res.status(404).json({ error: 'Service not found' });
+    }
+
+    await db.query('DELETE FROM SERVICES WHERE service_id = ?', [req.params.id]);
+    res.json({ message: 'Service deleted successfully' });
+  } catch (err) {
+    console.error('Delete service error:', err.message);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// DELETE /api/admin/packages/:id
+router.delete('/packages/:id', auth, adminOnly, async (req, res) => {
+  try {
+    const [pkg] = await db.query('SELECT * FROM PACKAGES WHERE package_id = ?', [req.params.id]);
+    if (pkg.length === 0) {
+      return res.status(404).json({ error: 'Package not found' });
+    }
+
+    await db.query('DELETE FROM PACKAGES WHERE package_id = ?', [req.params.id]);
+    res.json({ message: 'Package deleted successfully' });
+  } catch (err) {
+    console.error('Delete package error:', err.message);
     res.status(500).json({ error: 'Server error' });
   }
 });

@@ -21,6 +21,7 @@ app.use('/api/packages', require('./routes/packages'));
 app.use('/api/plans', require('./routes/plans'));
 app.use('/api/orders', require('./routes/orders'));
 app.use('/api/admin', require('./routes/admin'));
+app.use('/api/checkout', require('./routes/checkout'));
 
 // Basic route to check if server is running
 app.get('/', (req, res) => {
