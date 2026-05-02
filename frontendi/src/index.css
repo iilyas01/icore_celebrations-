@@ -1,0 +1,190 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Nunito:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #FAFAFA;
+  --surface: #FFFFFF;
+  --primary: #F59E0B;
+  --primary-hover: #D97706;
+  --secondary-accent-1: #8B5CF6;
+  --secondary-accent-2: #3B82F6;
+  --text-primary: #1E293B;
+  --text-secondary: #475569;
+  --border: #E2E8F0;
+}
+
+body {
+  margin: 0;
+  font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--background);
+  color: var(--text-primary);
+}
+
+.font-fredoka {
+  font-family: 'Fredoka', sans-serif;
+}
+
+.font-nunito {
+  font-family: 'Nunito', sans-serif;
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #3B82F6 0%, #8B5CF6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.card-hover {
+  transition: all 0.3s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  color: white;
+  border-radius: 9999px;
+  padding: 0.75rem 2rem;
+  font-weight: 700;
+  font-family: 'Nunito', sans-serif;
+  box-shadow: 0 8px 20px rgba(245, 158, 11, 0.3);
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-hover);
+  transform: scale(1.02);
+}
+
+.btn-primary:active {
+  transform: scale(0.98);
+}
+
+.btn-secondary {
+  background-color: #EEF2FF;
+  color: #4F46E5;
+  border-radius: 9999px;
+  padding: 0.75rem 2rem;
+  font-weight: 600;
+  font-family: 'Nunito', sans-serif;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background-color: #E0E7FF;
+}
+
+.glass-header {
+  backdrop-filter: blur(12px);
+  background-color: rgba(255, 255, 255, 0.8);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.5);
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 98%;
+    --foreground: 222 47% 11%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+    --primary: 38 92% 50%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 217 91% 60%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
+    --accent: 263 70% 66%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 38 92% 50%;
+    --radius: 1.5rem;
+    --chart-1: 38 92% 50%;
+    --chart-2: 217 91% 60%;
+    --chart-3: 263 70% 66%;
+    --chart-4: 142 71% 45%;
+    --chart-5: 0 84% 60%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer base {
+  [data-debug-wrapper="true"] {
+    display: contents !important;
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-up {
+  animation: slideUp 0.6s ease-out forwards;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Bento grid item sizes */
+.bento-large {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+.bento-medium {
+  grid-column: span 2;
+  grid-row: span 1;
+}
+
+.bento-small {
+  grid-column: span 1;
+  grid-row: span 1;
+}
+
+@media (max-width: 768px) {
+  .bento-large,
+  .bento-medium,
+  .bento-small {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
+}
