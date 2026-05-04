@@ -20,7 +20,7 @@ router.get('/orders', auth, adminOnly, async (req, res) => {
       SELECT o.*, u.name as customer_name, u.email,
       p.event_date, p.guest_count, p.total_estimate,
       t.name as theme_name, v.name as venue_name
-      FROM ORDERS o
+      FROM orders o
       JOIN USERS u ON o.user_id = u.user_id
       JOIN PLANS p ON o.plan_id = p.plan_id
       LEFT JOIN THEMES t ON p.theme_id = t.theme_id
@@ -39,17 +39,17 @@ router.get('/orders', auth, adminOnly, async (req, res) => {
 // It first checks if the order exists, and returns a success message. 
 router.post('/orders/:id/approve', auth, adminOnly, async (req, res) => {
   try {
-    const [order] = await db.query('SELECT * FROM ORDERS WHERE order_id = ?', [req.params.id]);
+    const [order] = await db.query('SELECT * FROM orders WHERE order_id = ?', [req.params.id]);
     if (order.length === 0) {
       return res.status(404).json({ error: 'Order not found' });
     }
 
     await db.query(
-      'UPDATE ORDERS SET order_status = "confirmed", payment_status = "paid" WHERE order_id = ?', 
+      'UPDATE orders SET order_status = "confirmed", payment_status = "paid" WHERE order_id = ?', 
       [req.params.id]
     );
     await db.query(
-      'INSERT INTO ORDER_APPROVALS (order_id, decision) VALUES (?, "approved")',
+      'INSERT INTO order_approvals (order_id, decision) VALUES (?, "approved")',
       [req.params.id]
     );
 
@@ -64,17 +64,17 @@ router.post('/orders/:id/approve', auth, adminOnly, async (req, res) => {
 // This endpoint allows admins to reject an order by updating its status to "cancelled" and recording the rejection decision in the ORDER_APPROVALS table.
 router.post('/orders/:id/reject', auth, adminOnly, async (req, res) => {
   try {
-    const [order] = await db.query('SELECT * FROM ORDERS WHERE order_id = ?', [req.params.id]);
+    const [order] = await db.query('SELECT * FROM orders WHERE order_id = ?', [req.params.id]);
     if (order.length === 0) {
       return res.status(404).json({ error: 'Order not found' });
     }
 
     await db.query(
-      'UPDATE ORDERS SET order_status = "cancelled", payment_status = "refunded" WHERE order_id = ?',
+      'UPDATE orders SET order_status = "cancelled", payment_status = "refunded" WHERE order_id = ?',
       [req.params.id]
     );
     await db.query(
-      'INSERT INTO ORDER_APPROVALS (order_id, decision) VALUES (?, "rejected")',
+      'INSERT INTO order_approvals (order_id, decision) VALUES (?, "rejected")',
       [req.params.id]
     );
 
@@ -87,12 +87,12 @@ router.post('/orders/:id/reject', auth, adminOnly, async (req, res) => {
 // DELETE /api/admin/themes/:id
 router.delete('/themes/:id', auth, adminOnly, async (req, res) => {
   try {
-    const [theme] = await db.query('SELECT * FROM THEMES WHERE theme_id = ?', [req.params.id]);
+    const [theme] = await db.query('SELECT * FROM themes WHERE theme_id = ?', [req.params.id]);
     if (theme.length === 0) {
       return res.status(404).json({ error: 'Theme not found' });
     }
 
-    await db.query('DELETE FROM THEMES WHERE theme_id = ?', [req.params.id]);
+    await db.query('DELETE FROM themes WHERE theme_id = ?', [req.params.id]);
     res.json({ message: 'Theme deleted successfully' });
   } catch (err) {
     console.error('Delete theme error:', err.message);
@@ -103,12 +103,12 @@ router.delete('/themes/:id', auth, adminOnly, async (req, res) => {
 // DELETE /api/admin/venues/:id
 router.delete('/venues/:id', auth, adminOnly, async (req, res) => {
   try {
-    const [venue] = await db.query('SELECT * FROM VENUES WHERE venue_id = ?', [req.params.id]);
+    const [venue] = await db.query('SELECT * FROM venues WHERE venue_id = ?', [req.params.id]);
     if (venue.length === 0) {
       return res.status(404).json({ error: 'Venue not found' });
     }
 
-    await db.query('DELETE FROM VENUES WHERE venue_id = ?', [req.params.id]);
+    await db.query('DELETE FROM venues WHERE venue_id = ?', [req.params.id]);
     res.json({ message: 'Venue deleted successfully' });
   } catch (err) {
     console.error('Delete venue error:', err.message);
@@ -124,7 +124,7 @@ router.delete('/services/:id', auth, adminOnly, async (req, res) => {
       return res.status(404).json({ error: 'Service not found' });
     }
 
-    await db.query('DELETE FROM SERVICES WHERE service_id = ?', [req.params.id]);
+    await db.query('DELETE FROM services WHERE service_id = ?', [req.params.id]);
     res.json({ message: 'Service deleted successfully' });
   } catch (err) {
     console.error('Delete service error:', err.message);
@@ -140,7 +140,7 @@ router.delete('/packages/:id', auth, adminOnly, async (req, res) => {
       return res.status(404).json({ error: 'Package not found' });
     }
 
-    await db.query('DELETE FROM PACKAGES WHERE package_id = ?', [req.params.id]);
+    await db.query('DELETE FROM packages WHERE package_id = ?', [req.params.id]);
     res.json({ message: 'Package deleted successfully' });
   } catch (err) {
     console.error('Delete package error:', err.message);

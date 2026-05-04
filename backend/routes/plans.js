@@ -13,7 +13,7 @@ const recalculateTotal = async (plan_id) => {
     // Get venue price for this plan
     const [planRows] = await db.query(
       `SELECT p.*, v.price_per_day 
-       FROM PLANS p 
+       FROM plans p 
        JOIN VENUES v ON p.venue_id = v.venue_id 
        WHERE p.plan_id = ?`,
       [plan_id]
@@ -24,7 +24,7 @@ const recalculateTotal = async (plan_id) => {
 
     // Get total from all packages in this plan
     const [packages] = await db.query(
-      'SELECT SUM(pp.total) as pkg_total FROM PLAN_PACKAGES pp WHERE pp.plan_id = ?',
+      'SELECT SUM(pp.total) as pkg_total FROM plan_packages pp WHERE pp.plan_id = ?',
       [plan_id]
     );
     const pkg_total = parseFloat(packages[0].pkg_total) || 0;
@@ -32,7 +32,7 @@ const recalculateTotal = async (plan_id) => {
     // Get total from all services in this plan
     const [services] = await db.query(
       `SELECT SUM(s.estimated_price * ps.quantity) as svc_total 
-       FROM PLAN_SERVICES ps 
+       FROM plan_services ps 
        JOIN SERVICES s ON ps.service_id = s.service_id 
        WHERE ps.plan_id = ?`,
       [plan_id]
@@ -42,7 +42,7 @@ const recalculateTotal = async (plan_id) => {
     // Calculate grand total and update the plan
     const total = venue_price + pkg_total + svc_total;
     await db.query(
-      'UPDATE PLANS SET total_estimate = ? WHERE plan_id = ?',
+      'UPDATE plans SET total_estimate = ? WHERE plan_id = ?',
       [total, plan_id]
     );
   } catch (err) {
@@ -62,7 +62,7 @@ router.get('/my', auth, async (req, res) => {
     // Get the most recent plan with theme and venue names
     const [plans] = await db.query(`
       SELECT p.*, t.name as theme_name, v.name as venue_name
-      FROM PLANS p
+      FROM plans p
       LEFT JOIN THEMES t ON p.theme_id = t.theme_id
       LEFT JOIN VENUES v ON p.venue_id = v.venue_id
       WHERE p.user_id = ?
@@ -79,7 +79,7 @@ router.get('/my', auth, async (req, res) => {
     // Get all services added to this plan with service details
     const [services] = await db.query(`
       SELECT s.*, ps.quantity
-      FROM PLAN_SERVICES ps
+      FROM plan_services ps
       JOIN SERVICES s ON ps.service_id = s.service_id
       WHERE ps.plan_id = ?
     `, [plan.plan_id]);
@@ -87,7 +87,7 @@ router.get('/my', auth, async (req, res) => {
     // Get all packages added to this plan with package details
     const [packages] = await db.query(`
       SELECT pk.*, pp.quantity, pp.total
-      FROM PLAN_PACKAGES pp
+      FROM plan_packages pp
       JOIN PACKAGES pk ON pp.package_id = pk.package_id
       WHERE pp.plan_id = ?
     `, [plan.plan_id]);
@@ -116,14 +116,14 @@ router.post('/theme', auth, async (req, res) => {
   try {
     // Check if user already has a plan
     const [existing] = await db.query(
-      'SELECT * FROM PLANS WHERE user_id = ? ORDER BY created_at DESC LIMIT 1',
+      'SELECT * FROM plans WHERE user_id = ? ORDER BY created_at DESC LIMIT 1',
       [user_id]
     );
 
     if (existing.length > 0) {
       // Update existing plan with new theme, venue, date, and guest count
       await db.query(
-        'UPDATE PLANS SET theme_id = ?, venue_id = ?, event_date = ?, guest_count = ? WHERE plan_id = ?',
+        'UPDATE plans SET theme_id = ?, venue_id = ?, event_date = ?, guest_count = ? WHERE plan_id = ?',
         [
           theme_id,
           venue_id,
@@ -138,7 +138,7 @@ router.post('/theme', auth, async (req, res) => {
 
     // Create a new plan with theme, venue, date, and guest count
     const [result] = await db.query(
-      'INSERT INTO PLANS (user_id, theme_id, venue_id, event_date, guest_count, total_estimate) VALUES (?, ?, ?, ?, ?, 0)',
+      'INSERT INTO plans (user_id, theme_id, venue_id, event_date, guest_count, total_estimate) VALUES (?, ?, ?, ?, ?, 0)',
       [
         user_id,
         theme_id,
@@ -170,7 +170,7 @@ router.post('/venue', auth, async (req, res) => {
 
   try {
     const [existing] = await db.query(
-      'SELECT * FROM PLANS WHERE user_id = ? ORDER BY created_at DESC LIMIT 1',
+      'SELECT * FROM plans WHERE user_id = ? ORDER BY created_at DESC LIMIT 1',
       [user_id]
     );
 
@@ -179,7 +179,7 @@ router.post('/venue', auth, async (req, res) => {
     }
 
     await db.query(
-      'UPDATE PLANS SET venue_id = ? WHERE plan_id = ?',
+      'UPDATE plans SET venue_id = ? WHERE plan_id = ?',
       [venue_id, existing[0].plan_id]
     );
 
@@ -203,7 +203,7 @@ router.post('/services', auth, async (req, res) => {
 
   try {
     const [existing] = await db.query(
-      'SELECT * FROM PLANS WHERE user_id = ? ORDER BY created_at DESC LIMIT 1',
+      'SELECT * FROM plans WHERE user_id = ? ORDER BY created_at DESC LIMIT 1',
       [user_id]
     );
 
@@ -215,7 +215,7 @@ router.post('/services', auth, async (req, res) => {
 
     // Check if service is already in this plan
     const [alreadyAdded] = await db.query(
-      'SELECT * FROM PLAN_SERVICES WHERE plan_id = ? AND service_id = ?',
+      'SELECT * FROM plan_services WHERE plan_id = ? AND service_id = ?',
       [plan_id, service_id]
     );
 
@@ -225,7 +225,7 @@ router.post('/services', auth, async (req, res) => {
 
     // Insert the service into the plan
     await db.query(
-      'INSERT INTO PLAN_SERVICES (plan_id, service_id, quantity) VALUES (?, ?, ?)',
+      'INSERT INTO plan_services (plan_id, service_id, quantity) VALUES (?, ?, ?)',
       [plan_id, service_id, quantity]
     );
 
@@ -251,7 +251,7 @@ router.post('/packages', auth, async (req, res) => {
 
   try {
     const [existing] = await db.query(
-      'SELECT * FROM PLANS WHERE user_id = ? ORDER BY created_at DESC LIMIT 1',
+      'SELECT * FROM plans WHERE user_id = ? ORDER BY created_at DESC LIMIT 1',
       [user_id]
     );
 
@@ -263,7 +263,7 @@ router.post('/packages', auth, async (req, res) => {
 
     // Validate package exists and get its price
     const [pkg] = await db.query(
-      'SELECT * FROM PACKAGES WHERE package_id = ?',
+      'SELECT * FROM packages WHERE package_id = ?',
       [package_id]
     );
     if (pkg.length === 0) {
@@ -275,7 +275,7 @@ router.post('/packages', auth, async (req, res) => {
 
     // Check if package is already in this plan
     const [alreadyAdded] = await db.query(
-      'SELECT * FROM PLAN_PACKAGES WHERE plan_id = ? AND package_id = ?',
+      'SELECT * FROM plan_packages WHERE plan_id = ? AND package_id = ?',
       [plan_id, package_id]
     );
 
@@ -285,7 +285,7 @@ router.post('/packages', auth, async (req, res) => {
 
     // Insert the package into the plan with quantity and total
     await db.query(
-      'INSERT INTO PLAN_PACKAGES (plan_id, package_id, quantity, total) VALUES (?, ?, ?, ?)',
+      'INSERT INTO plan_packages (plan_id, package_id, quantity, total) VALUES (?, ?, ?, ?)',
       [plan_id, package_id, quantity, total]
     );
 
@@ -308,7 +308,7 @@ router.put('/guests', auth, async (req, res) => {
 
   try {
     const [plans] = await db.query(
-      'SELECT * FROM PLANS WHERE user_id = ? ORDER BY created_at DESC LIMIT 1',
+      'SELECT * FROM plans WHERE user_id = ? ORDER BY created_at DESC LIMIT 1',
       [user_id]
     );
 
@@ -317,7 +317,7 @@ router.put('/guests', auth, async (req, res) => {
     }
 
     await db.query(
-      'UPDATE PLANS SET guest_count = ? WHERE plan_id = ?',
+      'UPDATE plans SET guest_count = ? WHERE plan_id = ?',
       [guest_count, plans[0].plan_id]
     );
 
@@ -339,7 +339,7 @@ router.delete('/services/:service_id', auth, async (req, res) => {
 
   try {
     const [plans] = await db.query(
-      'SELECT * FROM PLANS WHERE user_id = ? ORDER BY created_at DESC LIMIT 1',
+      'SELECT * FROM plans WHERE user_id = ? ORDER BY created_at DESC LIMIT 1',
       [user_id]
     );
 
@@ -348,7 +348,7 @@ router.delete('/services/:service_id', auth, async (req, res) => {
     }
 
     await db.query(
-      'DELETE FROM PLAN_SERVICES WHERE plan_id = ? AND service_id = ?',
+      'DELETE FROM plan_services WHERE plan_id = ? AND service_id = ?',
       [plans[0].plan_id, service_id]
     );
 
@@ -372,7 +372,7 @@ router.delete('/packages/:package_id', auth, async (req, res) => {
 
   try {
     const [plans] = await db.query(
-      'SELECT * FROM PLANS WHERE user_id = ? ORDER BY created_at DESC LIMIT 1',
+      'SELECT * FROM plans WHERE user_id = ? ORDER BY created_at DESC LIMIT 1',
       [user_id]
     );
 
@@ -381,7 +381,7 @@ router.delete('/packages/:package_id', auth, async (req, res) => {
     }
 
     await db.query(
-      'DELETE FROM PLAN_PACKAGES WHERE plan_id = ? AND package_id = ?',
+      'DELETE FROM plan_packages WHERE plan_id = ? AND package_id = ?',
       [plans[0].plan_id, package_id]
     );
 
@@ -404,7 +404,7 @@ router.delete('/my', auth, async (req, res) => {
 
   try {
     const [plans] = await db.query(
-      'SELECT * FROM PLANS WHERE user_id = ? ORDER BY created_at DESC LIMIT 1',
+      'SELECT * FROM plans WHERE user_id = ? ORDER BY created_at DESC LIMIT 1',
       [user_id]
     );
 
@@ -413,7 +413,7 @@ router.delete('/my', auth, async (req, res) => {
     }
 
     // Delete plan — cascades to PLAN_SERVICES and PLAN_PACKAGES
-    await db.query('DELETE FROM PLANS WHERE plan_id = ?', [plans[0].plan_id]);
+    await db.query('DELETE FROM plans WHERE plan_id = ?', [plans[0].plan_id]);
     res.json({ message: 'Plan deleted successfully' });
   } catch (err) {
     console.error('Delete plan error:', err.message);

@@ -14,7 +14,7 @@ router.post('/', auth, async (req, res) => {
     if (plan_id) {
       // Use plan_id from request body
       const [planRows] = await db.query(
-        'SELECT * FROM PLANS WHERE plan_id = ? AND user_id = ?',
+        'SELECT * FROM plans WHERE plan_id = ? AND user_id = ?',
         [plan_id, user_id]
       );
       if (planRows.length === 0) {
@@ -24,7 +24,7 @@ router.post('/', auth, async (req, res) => {
     } else {
       // Fall back to most recent plan
       const [planRows] = await db.query(
-        'SELECT * FROM PLANS WHERE user_id = ? ORDER BY created_at DESC LIMIT 1',
+        'SELECT * FROM plans WHERE user_id = ? ORDER BY created_at DESC LIMIT 1',
         [user_id]
       );
       if (planRows.length === 0) {
@@ -35,7 +35,7 @@ router.post('/', auth, async (req, res) => {
 
     // Check if order already exists for this plan
     const [existingOrders] = await db.query(
-      'SELECT * FROM ORDERS WHERE plan_id = ?',
+      'SELECT * FROM orders WHERE plan_id = ?',
       [planId]
     );
 
@@ -46,7 +46,7 @@ router.post('/', auth, async (req, res) => {
 
     // Create new order
     const [result] = await db.query(
-      'INSERT INTO ORDERS (plan_id, user_id, order_status, payment_status) VALUES (?, ?, "pending", "unpaid")',
+      'INSERT INTO orders (plan_id, user_id, order_status, payment_status) VALUES (?, ?, "pending", "unpaid")',
       [planId, user_id]
     );
 
@@ -65,7 +65,7 @@ router.get('/', auth, async (req, res) => {
     const [orders] = await db.query(
       `SELECT o.*, p.event_date, p.guest_count, p.total_estimate,
        t.name as theme_name, v.name as venue_name
-       FROM ORDERS o
+       FROM orders o
        JOIN PLANS p ON o.plan_id = p.plan_id
        LEFT JOIN THEMES t ON p.theme_id = t.theme_id
        LEFT JOIN VENUES v ON p.venue_id = v.venue_id
@@ -89,7 +89,7 @@ router.get('/my', auth, async (req, res) => {
     const [orders] = await db.query(
       `SELECT o.*, p.event_date, p.guest_count, p.total_estimate,
        t.name as theme_name, v.name as venue_name
-       FROM ORDERS o
+       FROM orders o
        JOIN PLANS p ON o.plan_id = p.plan_id
        LEFT JOIN THEMES t ON p.theme_id = t.theme_id
        LEFT JOIN VENUES v ON p.venue_id = v.venue_id
@@ -112,7 +112,7 @@ router.get('/:id', auth, async (req, res) => {
       `SELECT o.*, p.event_date, p.guest_count, p.total_estimate,
        t.name as theme_name, v.name as venue_name,
        v.price_per_day
-       FROM ORDERS o
+       FROM orders o
        JOIN PLANS p ON o.plan_id = p.plan_id
        LEFT JOIN THEMES t ON p.theme_id = t.theme_id
        LEFT JOIN VENUES v ON p.venue_id = v.venue_id

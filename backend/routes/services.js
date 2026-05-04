@@ -2,30 +2,25 @@ const express = require('express');
 const router = express.Router();
 const db = require('../db');
 
-// GET /api/services - Get all services
-// This endpoint returns all services available in the system. Services are individual items that can be added to a plan. 
 router.get('/', async (req, res) => {
   try {
-    const [services] = await db.query('SELECT * FROM SERVICES');
-    res.json(services);
+    const [rows] = await db.query('SELECT * FROM services');
+    res.json(rows);
   } catch (err) {
-    console.error('Error fetching services:', err.message);
+    console.error('Get services error:', err.message);
     res.status(500).json({ error: 'Server error' });
   }
-}); 
+});
 
-// GET api services id - Get a single service by ID
-// This endpoint returns details of a single service based on its ID.
 router.get('/:id', async (req, res) => {
-  const { id } = req.params;
   try {
-    const [services] = await db.query('SELECT * FROM SERVICES WHERE service_id = ?', [id]);
-    if (services.length === 0) {
+    const [rows] = await db.query('SELECT * FROM services WHERE service_id = ?', [req.params.id]);
+    if (rows.length === 0) {
       return res.status(404).json({ error: 'Service not found' });
     }
-    res.json(services[0]);
+    res.json(rows[0]);
   } catch (err) {
-    console.error('Error fetching service:', err.message);
+    console.error('Get service error:', err.message);
     res.status(500).json({ error: 'Server error' });
   }
 });

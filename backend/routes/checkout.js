@@ -9,7 +9,7 @@ router.post('/create-session', auth, async (req, res) => {
 
   try {
     const [orders] = await db.query(
-      'SELECT * FROM ORDERS WHERE order_id = ?',
+      'SELECT * FROM orders WHERE order_id = ?',
       [order_id]
     );
 
@@ -19,7 +19,7 @@ router.post('/create-session', auth, async (req, res) => {
 
     // 
     await db.query(
-      'UPDATE ORDERS SET payment_status = "paid", order_status = "pending" WHERE order_id = ?',
+      'UPDATE orders SET payment_status = "paid", order_status = "pending" WHERE order_id = ?',
       [order_id]
     );
 
@@ -35,7 +35,7 @@ router.post('/create-session', auth, async (req, res) => {
 router.get('/status/:sessionId', auth, async (req, res) => {
   try {
     const [orders] = await db.query(
-      'SELECT * FROM ORDERS WHERE order_id = ?',
+      'SELECT * FROM orders WHERE order_id = ?',
       [req.params.sessionId]
     );
 
