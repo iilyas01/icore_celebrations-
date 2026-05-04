@@ -65,8 +65,16 @@ const VenuesPage = () => {
             onClick={() => navigate(`/venues/${venue.venue_id}`)}
           >
               {/* Placeholder image for venue */}
-              <div className="h-48 bg-gradient-to-br from-blue-100 to-purple-100 flex items-center justify-center">
-                <MapPin size={48} className="text-blue-300" />
+              <div className="h-48 bg-gradient-to-br from-blue-100 to-purple-100 flex items-center justify-center overflow-hidden">
+                {venue.IMAGE_URL ? (
+                  <img
+                    src={venue.IMAGE_URL}
+                    alt={venue.name}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <MapPin size={48} className="text-blue-300" />
+                )}
               </div>
               
               <div className="p-6">

@@ -61,8 +61,16 @@ const VenueDetailPage = () => {
 
         <div className="bg-white rounded-3xl overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.08)]">
           {/* Venue Image Placeholder */}
-          <div className="h-64 bg-gradient-to-br from-blue-100 to-purple-100 flex items-center justify-center">
-            <MapPin size={80} className="text-blue-300" />
+          <div className="h-80 bg-gradient-to-br from-blue-100 to-purple-100 flex items-center justify-center overflow-hidden">
+            {venue.IMAGE_URL ? (
+              <img
+                src={venue.IMAGE_URL}
+                alt={venue.name}
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <MapPin size={80} className="text-blue-300" />
+            )}
           </div>
 
           <div className="p-8">
