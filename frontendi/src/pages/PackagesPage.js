@@ -103,13 +103,25 @@ const PackagesPage = () => {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {filteredPackages.map((pkg) => (
            <div
-            key={pkg.package_id}
-            className={`relative bg-white rounded-3xl p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border-2 card-hover cursor-pointer ${
-              isDeluxe(pkg.name) ? 'border-amber-300' : 'border-transparent'
-            }`}
-            data-testid={`package-card-${pkg.package_id}`}
-            onClick={() => navigate(`/packages/${pkg.package_id}`)}
-          >
+           key={pkg.package_id}
+           className={`relative bg-white rounded-3xl overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] border-2 card-hover cursor-pointer ${
+             isDeluxe(pkg.name) ? 'border-amber-300' : 'border-transparent'
+           }`}
+           data-testid={`package-card-${pkg.package_id}`}
+           onClick={() => navigate(`/packages/${pkg.package_id}`)}
+         >
+           {pkg.image_url ? (
+             <img
+               src={pkg.image_url}
+               alt={pkg.name}
+               className="w-full h-40 object-cover"
+             />
+           ) : (
+             <div className={`w-full h-40 flex items-center justify-center ${isDeluxe(pkg.name) ? 'bg-gradient-to-br from-amber-100 to-orange-100' : 'bg-gradient-to-br from-pink-100 to-purple-100'}`}>
+               <span className="text-5xl">🎁</span>
+             </div>
+           )}
+           <div className="p-6">
               {isDeluxe(pkg.name) && (
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2">
                   <span className="bg-gradient-to-r from-amber-400 to-orange-400 text-white px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider shadow-lg">
@@ -133,6 +145,7 @@ const PackagesPage = () => {
                 <span className="font-fredoka text-2xl text-slate-900">
                   {parseFloat(pkg.price).toFixed(2)}
                 </span>
+                </div>
               </div>
             </div>
           ))}

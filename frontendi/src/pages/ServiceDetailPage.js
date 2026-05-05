@@ -80,8 +80,16 @@ const ServiceDetailPage = () => {
 
         <div className="bg-white rounded-3xl overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.08)]">
           {/* Service Image Placeholder */}
-          <div className="h-64 bg-gradient-to-br from-purple-100 to-pink-100 flex items-center justify-center">
-            <span className="text-8xl">🎉</span>
+          <div className="h-85 bg-gradient-to-br from-purple-100 to-pink-100 flex items-center justify-center overflow-hidden">
+            {service.image_url ? (
+              <img
+                src={service.image_url}
+                alt={service.name}
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <span className="text-8xl">🎉</span>
+            )}
           </div>
 
           <div className="p-8">

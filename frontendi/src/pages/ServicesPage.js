@@ -111,12 +111,25 @@ const ServicesPage = () => {
         {/* Services Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {filteredServices.map((service) => (
-            <div
-              key={service.service_id}
-              className="bg-white rounded-3xl p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 card-hover cursor-pointer"
-              data-testid={`service-card-${service.service_id}`}
-              onClick={() => navigate(`/services/${service.service_id}`)}
-            >
+           <div
+           key={service.service_id}
+           className="bg-white rounded-3xl overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 card-hover cursor-pointer"
+           data-testid={`service-card-${service.service_id}`}
+           onClick={() => navigate(`/services/${service.service_id}`)}
+         >
+           {service.image_url ? (
+             <img
+               src={service.image_url}
+               alt={service.name}
+               className="w-full h-40 object-cover"
+             />
+           ) : (
+             <div className="w-full h-40 bg-gradient-to-br from-purple-100 to-pink-100 flex items-center justify-center">
+               <span className="text-5xl">🎉</span>
+             </div>
+           )}
+           <div className="p-6">
+            </div>
               <span className={`inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-4 ${getCategoryColor(service.category)}`}>
                 {service.category}
               </span>

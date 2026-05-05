@@ -71,8 +71,16 @@ const PackageDetailPage = () => {
 
         <div className="bg-white rounded-3xl overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.08)]">
           {/* Package Image Placeholder */}
-          <div className={`h-64 flex items-center justify-center ${isDeluxe(pkg.name) ? 'bg-gradient-to-br from-amber-100 to-orange-100' : 'bg-gradient-to-br from-pink-100 to-purple-100'}`}>
-            <Gift size={80} className={isDeluxe(pkg.name) ? 'text-amber-400' : 'text-pink-400'} />
+          <div className={`h-85 flex items-center justify-center overflow-hidden ${isDeluxe(pkg.name) ? 'bg-gradient-to-br from-amber-100 to-orange-100' : 'bg-gradient-to-br from-pink-100 to-purple-100'}`}>
+            {pkg.image_url ? (
+              <img
+                src={pkg.image_url}
+                alt={pkg.name}
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <Gift size={80} className={isDeluxe(pkg.name) ? 'text-amber-400' : 'text-pink-400'} />
+            )}
           </div>
 
           <div className="p-8">
