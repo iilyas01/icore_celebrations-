@@ -283,7 +283,52 @@ INSERT INTO PACKAGES (theme_id, name, price, description) VALUES
 (17, 'Full Hawaiian Luau Experience', 580.00, 'Complete luau setup, premium décor, tropical activities, and themed entertainment.');
 
 SELECT * FROM PACKAGES;
-
 SHOW DATABASES;
+
+ALTER TABLE services
+ADD image_url VARCHAR(255);
+
+UPDATE services SET IMAGE_URL = 'https://sweetdreamsny.com/wp-content/uploads/2022/07/Bridal-Shower-Dessert-Table-NYC-Long-Island-9-scaled.jpg'
+WHERE service_ID= 3;
+UPDATE services SET IMAGE_URL = 'https://s3-media0.fl.yelpcdn.com/bphoto/1UpYsmCG9RcIAMq_Xm8_wA/348s.jpg'
+WHERE service_ID= 4;
+UPDATE services SET IMAGE_URL = 'https://manninos.net/pluto-images/funnel/images/2ba54e92-c27a-4d02-a633-f959f59482c4?w=1920&quality=60&fit=cover'
+WHERE service_ID= 6;
+UPDATE services SET IMAGE_URL = 'https://cdn.foodstorm.com/662183fbc94241be92d563d6becef6c7/images/7d464532edf248acb1bae8fc6e62bf3a_540w.jpg'
+WHERE service_ID= 5;
+UPDATE services SET IMAGE_URL = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ34T2KFQ4DCaVbc8_4Thi68asUhkRJuaeVaQ&s'
+WHERE service_ID= 11;
+UPDATE services SET IMAGE_URL = 'https://www.tycatheclown.com/wp-content/uploads/2019/12/Tyca-The-Clown-02-scaled.jpg'
+WHERE service_ID= 7;
+UPDATE services SET IMAGE_URL = 'https://happier.sg/wp-content/uploads/2018/08/Kids-party-magician-singapore-580x580.jpg'
+WHERE service_ID= 8;
+UPDATE services SET IMAGE_URL = 'https://cdn.canvasrebel.com/wp-content/uploads/2023/08/c-MelissaMunn__MelissafromFaceArtbyMelissafpsamples_1691629715839.jpg'
+WHERE service_ID= 9;
+UPDATE services SET IMAGE_URL = 'https://susymartinezphotography.com/wp-content/uploads/2020/08/Leo_0180-1.jpg.webp'
+WHERE service_ID= 10;
+UPDATE services SET IMAGE_URL = 'https://dreameventsny.com/wp-content/uploads/2025/09/Shower-4.jpg'
+WHERE service_ID= 12;
+UPDATE services SET IMAGE_URL = 'https://ae-pic-a1.aliexpress-media.com/kf/S850a5834f8884219826c4989336482231.jpg'
+WHERE service_ID= 13;
+UPDATE services SET IMAGE_URL = 'https://images.squarespace-cdn.com/content/v1/5f22d79f2c11cb30a2c8bc10/8a5b4dcf-fc3f-4208-a39a-3b07ef557780/Empanadas%2C+Hot+Sauces%2C+Yellow+Background%2C+Rope%2C+Tropical+Plants+and+Mini+Cocktails.jpg'
+WHERE service_ID= 14;
+UPDATE services SET IMAGE_URL = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqG2p0g3_XhTNHh8HK7HxtsaCitZKw2hu3xg&s'
+WHERE service_ID= 15;
+UPDATE services SET IMAGE_URL = 'https://clownaroundpartyrental.com/wp-content/uploads/2024/10/22ft.-Sugar-Rush-Slide-e1728502484590.jpg'
+WHERE service_ID= 16;
+UPDATE services SET IMAGE_URL = 'https://rollingvideogameslongisland.com/wp-content/uploads/2020/09/Rolling-Video-Game-Truck-8.jpg'
+WHERE service_ID= 17;
+UPDATE services SET IMAGE_URL = 'https://lh6.googleusercontent.com/proxy/BaW_kbFGnn9Y1z4EHVi-Ejg_63xBuUw7kUkMwQUhY3DSHDtq6u7rt19ufg2QPYG9LBcExfmkDZLkAPmcTUqtQWd5zfNcCGhiBiX8f3m8UF7wrdRr456rsuyU9ezoCHUHxPg'
+WHERE service_ID= 18;
+UPDATE services SET IMAGE_URL = 'https://www.djzeke.com/wp-content/uploads/2024/07/Dj-Zeke-2.jpg'
+WHERE service_ID= 19;
+UPDATE services SET IMAGE_URL = 'https://www.sunstarvending.com/wp-content/uploads/2025/01/671aabbdc450ef99aa711fd9_AHOq17FjmHbnVObvoCrZw9DHosuWzOFHDuhNwRZBYYHS5ZMVqtQfoFnJXKLudA_tzWAYNfJao7wlmD_X_YihyN5n2K1atQC6vv5mcr4u3JA9bzWTDR0la3zaqlH1DyHoOpgAEI9TJyOuzw.png'
+WHERE service_ID= 20;
+UPDATE services SET IMAGE_URL = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRR0Uh8tRoBulFXOiPqH7HhlvbOv9wfzKS19g&s'
+WHERE service_ID= 21;
+UPDATE services SET IMAGE_URL = 'https://s3-media0.fl.yelpcdn.com/bphoto/sU-KHditm-jdjhO5F1cT3Q/348s.jpg'
+WHERE service_ID= 1;
+UPDATE services SET IMAGE_URL = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFPTJtcxMTKw0dDRT2-QX75zemHYR9rmwMMw&s'
+WHERE service_ID= 2;
 
 
