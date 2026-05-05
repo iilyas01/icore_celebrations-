@@ -327,8 +327,8 @@ WHERE service_ID= 20;
 UPDATE services SET IMAGE_URL = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRR0Uh8tRoBulFXOiPqH7HhlvbOv9wfzKS19g&s'
 WHERE service_ID= 21;
 UPDATE services SET IMAGE_URL = 'https://s3-media0.fl.yelpcdn.com/bphoto/sU-KHditm-jdjhO5F1cT3Q/348s.jpg'
-WHERE service_ID= 22;
+WHERE service_ID= 1;
 UPDATE services SET IMAGE_URL = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFPTJtcxMTKw0dDRT2-QX75zemHYR9rmwMMw&s'
-WHERE service_ID= 23;
+WHERE service_ID= 2;
 
 
