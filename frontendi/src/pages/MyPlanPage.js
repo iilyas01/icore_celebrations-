@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { ShoppingBag, MapPin, Calendar, Users, Trash2, Plus, DollarSign, Package, Wrench } from 'lucide-react';
 import { toast } from 'sonner';
@@ -174,25 +174,25 @@ const MyPlanPage = () => {
             <div className="bg-white rounded-3xl p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
               <h2 className="font-fredoka text-2xl text-slate-900 mb-6">Event Details</h2>
               <div className="grid sm:grid-cols-2 gap-4">
-                <div className="flex items-center gap-3 p-4 bg-amber-50 rounded-2xl">
-                  <div className="w-10 h-10 bg-amber-100 rounded-xl flex items-center justify-center">
-                    <span className="text-xl">🎨</span>
-                  </div>
-                  <div>
-                    <p className="font-nunito text-xs text-slate-500 uppercase tracking-wider">Theme</p>
-                    <p className="font-fredoka text-lg text-slate-900">{plan.theme_name}</p>
-                  </div>
+              <Link to={`/themes/${plan.theme_id}`} className="flex items-center gap-3 p-4 bg-amber-50 rounded-2xl hover:bg-amber-100 transition-colors">
+                <div className="w-10 h-10 bg-amber-100 rounded-xl flex items-center justify-center">
+                  <span className="text-xl">🎨</span>
                 </div>
+                <div>
+                  <p className="font-nunito text-xs text-slate-500 uppercase tracking-wider">Theme</p>
+                  <p className="font-fredoka text-lg text-slate-900 hover:text-amber-600">{plan.theme_name}</p>
+                </div>
+              </Link>
 
-                <div className="flex items-center gap-3 p-4 bg-blue-50 rounded-2xl">
+                <Link to={`/venues/${plan.venue_id}`} className="flex items-center gap-3 p-4 bg-blue-50 rounded-2xl hover:bg-blue-100 transition-colors">
                   <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center">
                     <MapPin size={20} className="text-blue-600" />
                   </div>
                   <div>
                     <p className="font-nunito text-xs text-slate-500 uppercase tracking-wider">Venue</p>
-                    <p className="font-fredoka text-lg text-slate-900">{plan.venue_name}</p>
+                    <p className="font-fredoka text-lg text-slate-900 hover:text-blue-600">{plan.venue_name}</p>
                   </div>
-                </div>
+                </Link>
 
                 <div className="flex items-center gap-3 p-4 bg-purple-50 rounded-2xl">
                   <div className="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center">
@@ -200,9 +200,26 @@ const MyPlanPage = () => {
                   </div>
                   <div>
                     <p className="font-nunito text-xs text-slate-500 uppercase tracking-wider">Date</p>
-                    <p className="font-fredoka text-lg text-slate-900">
-                      {new Date(plan.event_date).toLocaleDateString()}
-                    </p>
+                    <input
+                      type="date"
+                      defaultValue={plan.event_date ? plan.event_date.split('T')[0] : ''}
+                      min={new Date().toISOString().split('T')[0]}
+                      onBlur={async (e) => {
+                        try {
+                          await api.put('/plans/guests', { guest_count: plan.guest_count });
+                          await api.post('/plans/theme', {
+                            theme_id: plan.theme_id,
+                            venue_id: plan.venue_id,
+                            event_date: e.target.value,
+                            guest_count: plan.guest_count
+                          });
+                          fetchPlan();
+                        } catch (err) {
+                          console.error('Failed to update date');
+                        }
+                      }}
+                      className="font-fredoka text-lg text-slate-900 bg-transparent focus:outline-none focus:ring-2 focus:ring-purple-400 rounded-lg px-1"
+                    />
                   </div>
                 </div>
 
@@ -236,8 +253,8 @@ const MyPlanPage = () => {
                 <div className="space-y-3 mb-6">
                   {planPackages.map(pkg => (
                     <div key={pkg.package_id} className="flex items-center justify-between p-4 bg-amber-50 rounded-2xl">
-                      <div>
-                        <p className="font-nunito font-semibold text-slate-900">{pkg.name}</p>
+                      <div onClick={() => navigate(`/packages/${pkg.package_id}`)} className="cursor-pointer hover:opacity-75 transition-opacity">
+                        <p className="font-nunito font-semibold text-slate-900 hover:text-amber-600">{pkg.name}</p>
                         <p className="font-nunito text-sm text-slate-500">Qty: {pkg.quantity}</p>
                       </div>
                       <div className="flex items-center gap-3">
@@ -298,8 +315,8 @@ const MyPlanPage = () => {
                 <div className="space-y-3 mb-6">
                   {planServices.map(svc => (
                     <div key={svc.service_id} className="flex items-center justify-between p-4 bg-purple-50 rounded-2xl">
-                      <div>
-                        <p className="font-nunito font-semibold text-slate-900">{svc.name}</p>
+                      <div onClick={() => navigate(`/services/${svc.service_id}`)} className="cursor-pointer hover:opacity-75 transition-opacity">
+                        <p className="font-nunito font-semibold text-slate-900 hover:text-purple-600">{svc.name}</p>
                         <p className="font-nunito text-sm text-slate-500">{svc.category}</p>
                       </div>
                       <div className="flex items-center gap-3">

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { CreditCard, Calendar, Users, MapPin, ArrowLeft, Lock } from 'lucide-react';
+import { CreditCard, Calendar, Users, MapPin, ArrowLeft, Lock, Package, Wrench } from 'lucide-react';
 import { toast } from 'sonner';
 import api from '../services/api';
 
@@ -8,6 +8,9 @@ const CheckoutPage = () => {
   const { orderId } = useParams();
   const navigate = useNavigate();
   const [order, setOrder] = useState(null);
+  const [plan, setPlan] = useState(null);
+  const [planServices, setPlanServices] = useState([]);
+  const [planPackages, setPlanPackages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [processing, setProcessing] = useState(false);
   const [cardName, setCardName] = useState('');
@@ -16,14 +19,25 @@ const CheckoutPage = () => {
   const [cvv, setCvv] = useState('');
 
   useEffect(() => {
-    api.get(`/orders/${orderId}`)
-      .then(r => setOrder(r.data))
-      .catch(err => {
-        console.error(err);
+    const fetchData = async () => {
+      try {
+        const [orderRes, planRes] = await Promise.all([
+          api.get(`/orders/${orderId}`),
+          api.get('/plans/my')
+        ]);
+        setOrder(orderRes.data);
+        setPlan(planRes.data.plan);
+        setPlanServices(planRes.data.services || []);
+        setPlanPackages(planRes.data.packages || []);
+      } catch (error) {
+        console.error(error);
         toast.error('Order not found');
         navigate('/my-plan');
-      })
-      .finally(() => setLoading(false));
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
   }, [orderId, navigate]);
 
   const handlePayment = async () => {
@@ -122,16 +136,55 @@ const CheckoutPage = () => {
               </div>
 
               {/* Price Breakdown */}
-              <div className="border-t border-slate-100 pt-6 space-y-4">
-                <div className="flex justify-between items-center">
+              <div className="border-t border-slate-100 pt-6 space-y-3">
+                <div className="flex justify-between items-center py-2">
                   <span className="font-nunito text-slate-600">Theme</span>
                   <span className="font-nunito font-semibold">{order.theme_name}</span>
                 </div>
-                <div className="flex justify-between items-center">
+                <div className="flex justify-between items-center py-2">
                   <span className="font-nunito text-slate-600">Venue</span>
                   <span className="font-nunito font-semibold">{order.venue_name}</span>
                 </div>
-                <div className="flex justify-between items-center border-t border-slate-100 pt-4">
+
+                {/* Packages */}
+                {planPackages.length > 0 && (
+                  <>
+                    <div className="pt-2">
+                      <p className="font-nunito text-xs text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-1">
+                        <Package size={12} /> Packages
+                      </p>
+                      {planPackages.map(pkg => (
+                        <div key={pkg.package_id} className="flex justify-between items-center py-1">
+                          <span className="font-nunito text-slate-600 text-sm">— {pkg.name}</span>
+                          <span className="font-nunito font-semibold text-sm">
+                            ${parseFloat(pkg.price).toFixed(2)}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                )}
+
+                {/* Services */}
+                {planServices.length > 0 && (
+                  <>
+                    <div className="pt-2">
+                      <p className="font-nunito text-xs text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-1">
+                        <Wrench size={12} /> Services
+                      </p>
+                      {planServices.map(svc => (
+                        <div key={svc.service_id} className="flex justify-between items-center py-1">
+                          <span className="font-nunito text-slate-600 text-sm">— {svc.name}</span>
+                          <span className="font-nunito font-semibold text-sm">
+                            ${parseFloat(svc.estimated_price).toFixed(2)}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                )}
+
+                <div className="border-t border-slate-100 pt-4 flex justify-between items-center">
                   <span className="font-fredoka text-xl text-slate-900">Total Estimate</span>
                   <span className="font-fredoka text-3xl text-amber-500">
                     ${parseFloat(order.total_estimate || 0).toFixed(2)}
