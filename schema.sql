@@ -332,3 +332,76 @@ UPDATE services SET IMAGE_URL = 'https://encrypted-tbn0.gstatic.com/images?q=tbn
 WHERE service_ID= 2;
 
 
+ALTER TABLE packages
+ADD image_url VARCHAR(255);
+
+UPDATE packages SET image_url= 'https://i.pinimg.com/1200x/63/17/e5/6317e54791423dfd7bd69b3eab1fa6fa.jpg'
+WHERE PACKAGE_ID = 1; 
+UPDATE packages SET image_url= 'https://i.pinimg.com/736x/97/f8/72/97f87287e7993c01ba19b6e953d94af0.jpg'
+WHERE PACKAGE_ID = 2; 
+UPDATE packages SET image_url= 'https://i.pinimg.com/736x/91/e1/78/91e178fa136c89ad28fff25bc832b944.jpg'
+WHERE PACKAGE_ID = 3; 
+UPDATE packages SET image_url= 'https://i.pinimg.com/1200x/62/26/cb/6226cbc8798b5e3e76da18a14a486ef6.jpg'
+WHERE PACKAGE_ID = 4; 
+UPDATE packages SET image_url= 'https://i.pinimg.com/1200x/ca/12/ce/ca12ce9a6c2b1697d2a23b57c63d70f0.jpg'
+WHERE PACKAGE_ID = 5; 
+UPDATE packages SET image_url= 'https://i.pinimg.com/1200x/1c/b9/64/1cb964025d72e798e5002c6e216995f9.jpg'
+WHERE PACKAGE_ID = 6; 
+UPDATE packages SET image_url= 'https://i.pinimg.com/1200x/df/a4/03/dfa403693b37da2b0d60afd8430372a0.jpg'
+WHERE PACKAGE_ID = 7; 
+UPDATE packages SET image_url= 'https://i.pinimg.com/1200x/5f/fa/4a/5ffa4a790a7250afbce6ad2236452011.jpg'
+WHERE PACKAGE_ID = 8; 
+UPDATE packages SET image_url= 'https://i.pinimg.com/1200x/2d/db/7d/2ddb7d573f880f608d61134c9ea902f5.jpg'
+WHERE PACKAGE_ID = 9; 
+UPDATE packages SET image_url= 'https://i.etsystatic.com/25903056/r/il/eeff63/6658715098/il_1588xN.6658715098_tdrk.jpg'
+WHERE PACKAGE_ID = 10; 
+UPDATE packages SET image_url= 'https://i.pinimg.com/736x/b0/cd/ec/b0cdec20eeef3fb0286de0f7ae876180.jpg'
+WHERE PACKAGE_ID = 11; 
+UPDATE packages SET image_url= 'https://i.pinimg.com/736x/c7/82/58/c7825803e2eaa03217e0ee793cea9f1f.jpg'
+WHERE PACKAGE_ID = 12; 
+UPDATE packages SET image_url= 'https://i.pinimg.com/1200x/0a/54/cc/0a54cc596711b4dd9668466eec5048b7.jpg'
+WHERE PACKAGE_ID = 13; 
+UPDATE packages SET image_url= 'https://i.pinimg.com/1200x/ae/c5/89/aec58997d3d8eff5c0b9a84507066ae2.jpg'
+WHERE PACKAGE_ID = 14; 
+UPDATE packages SET image_url= 'https://i.pinimg.com/1200x/35/d6/2f/35d62f6646c1c5b4fd6bf3c63cf0e8d5.jpg'
+WHERE PACKAGE_ID = 15; 
+UPDATE packages SET image_url= 'https://i.pinimg.com/1200x/56/41/6a/56416aa7472c5aed645ea6bca9cd46d6.jpg'
+WHERE PACKAGE_ID = 16; 
+UPDATE packages SET image_url= 'https://i.pinimg.com/736x/59/28/39/5928393ee8cc234ad2ffe86624b61196.jpg'
+WHERE PACKAGE_ID = 17; 
+UPDATE packages SET image_url= 'https://i.pinimg.com/736x/d3/53/88/d35388759bf18b382d56fae5ea96e2e7.jpg'
+WHERE PACKAGE_ID = 18; 
+UPDATE packages SET image_url= 'https://i.pinimg.com/1200x/10/1d/0c/101d0caf834e96d0a393ab9483c36bcf.jpg'
+WHERE PACKAGE_ID = 19; 
+UPDATE packages SET image_url= 'https://i.pinimg.com/736x/96/ef/5e/96ef5e0efaa8d12795d6d22cab81d5ec.jpg'
+WHERE PACKAGE_ID = 20; 
+UPDATE packages SET image_url= 'https://i.pinimg.com/1200x/38/d2/4b/38d24b027a7db223c69aabd7426879f8.jpg'
+WHERE PACKAGE_ID = 21; 
+UPDATE packages SET image_url= 'https://i.pinimg.com/1200x/fa/cc/01/facc01a8a80f998ed83d15fdd34e1768.jpg'
+WHERE PACKAGE_ID = 22; 
+UPDATE packages SET image_url= 'https://i.pinimg.com/1200x/e7/21/cf/e721cfa3368d605eb50fab7a9e9ee591.jpg'
+WHERE PACKAGE_ID = 23; 
+UPDATE packages SET image_url= 'https://i.pinimg.com/1200x/51/13/35/5113350d07a9a2c5e35baec04389401d.jpg'
+WHERE PACKAGE_ID = 24; 
+UPDATE packages SET image_url= 'https://i.pinimg.com/1200x/29/07/8d/29078d88764f33f9c782c4c899478ed4.jpg'
+WHERE PACKAGE_ID = 25; 
+UPDATE packages SET image_url= 'https://i.pinimg.com/736x/1e/c8/9c/1ec89c16e62444327bd0ea17ee776ea8.jpg'
+WHERE PACKAGE_ID = 26; 
+UPDATE packages SET image_url= 'https://i.pinimg.com/736x/e5/7f/92/e57f92cee5ae67282562daa9761be07d.jpg'
+WHERE PACKAGE_ID = 27; 
+UPDATE packages SET image_url= 'https://i.pinimg.com/1200x/01/f0/0e/01f00ec3b43c4e7bcd89c3f82a4fea5d.jpg'
+WHERE PACKAGE_ID = 28; 
+UPDATE packages SET image_url= 'https://i.pinimg.com/736x/07/19/18/071918a67c4f0b898108b7985cbf4dc4.jpg'
+WHERE PACKAGE_ID = 29; 
+UPDATE packages SET image_url= 'https://i.pinimg.com/1200x/0e/48/f4/0e48f41f88010bcf539e8411099dbc91.jpg'
+WHERE PACKAGE_ID = 30; 
+UPDATE packages SET image_url= 'https://i.pinimg.com/736x/d9/57/c5/d957c51a751117e05a84c69586565f69.jpg'
+WHERE PACKAGE_ID = 31; 
+UPDATE packages SET image_url= 'https://i.pinimg.com/1200x/18/e1/23/18e123cb348b56e92d0cdf152f2d01e9.jpg'
+WHERE PACKAGE_ID = 32; 
+UPDATE packages SET image_url= 'https://i.pinimg.com/1200x/5b/e2/a1/5be2a1009c0f4f23147043f862eeb6c0.jpg'
+WHERE PACKAGE_ID = 33; 
+UPDATE packages SET image_url= 'https://i.pinimg.com/1200x/11/cd/ec/11cdecee9ceb729cd417be2cba68a314.jpg'
+WHERE PACKAGE_ID = 34; 
+
+
