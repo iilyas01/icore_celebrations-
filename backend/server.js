@@ -7,7 +7,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Routes
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/themes', require('./routes/themes'));
 app.use('/api/venues', require('./routes/venues'));
@@ -24,7 +23,7 @@ app.get('/', (req, res) => {
 
 app.get('/test-db', async (req, res) => {
   try {
-    const [rows] = await db.query('SHOW TABLES');
+    const [rows] = await db.query('SELECT DATABASE() as db, @@hostname as host');
     res.json(rows);
   } catch (err) {
     res.status(500).json({ error: err.message });
