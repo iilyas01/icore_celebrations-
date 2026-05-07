@@ -84,13 +84,7 @@ const VenueDetailPage = () => {
                   <span className="font-nunito">{venue.location}</span>
                 </div>
               </div>
-              <div className="flex items-center gap-2 bg-amber-50 px-6 py-3 rounded-2xl">
-                <DollarSign size={24} className="text-amber-500" />
-                <span className="font-fredoka text-2xl text-slate-900">
-                  ${parseFloat(venue.price_per_day).toFixed(2)}
-                </span>
-                <span className="font-nunito text-slate-500">/day</span>
-              </div>
+              
             </div>
 
             <div className="grid sm:grid-cols-2 gap-6 mb-8">

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { CreditCard, Calendar, Users, MapPin, ArrowLeft, Lock, Package, Wrench } from 'lucide-react';
+import { CreditCard, Calendar, Users, ArrowLeft, Lock, Package, Wrench } from 'lucide-react';
 import { toast } from 'sonner';
 import api from '../services/api';
 
@@ -8,7 +8,6 @@ const CheckoutPage = () => {
   const { orderId } = useParams();
   const navigate = useNavigate();
   const [order, setOrder] = useState(null);
-  const [plan, setPlan] = useState(null);
   const [planServices, setPlanServices] = useState([]);
   const [planPackages, setPlanPackages] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -26,7 +25,6 @@ const CheckoutPage = () => {
           api.get('/plans/my')
         ]);
         setOrder(orderRes.data);
-        setPlan(planRes.data.plan);
         setPlanServices(planRes.data.services || []);
         setPlanPackages(planRes.data.packages || []);
       } catch (error) {
@@ -104,17 +102,8 @@ const CheckoutPage = () => {
                 Order Summary
               </h1>
 
-              {/* Event Info */}
-              <div className="grid sm:grid-cols-3 gap-4 mb-8">
-                <div className="flex items-center gap-3 p-4 bg-blue-50 rounded-2xl">
-                  <MapPin size={20} className="text-blue-500" />
-                  <div>
-                    <p className="font-nunito text-xs text-slate-500">Venue</p>
-                    <p className="font-nunito font-semibold text-slate-900 text-sm">
-                      {order.venue_name}
-                    </p>
-                  </div>
-                </div>
+              {/* Event Info — date and guests only */}
+              <div className="grid sm:grid-cols-2 gap-4 mb-8">
                 <div className="flex items-center gap-3 p-4 bg-purple-50 rounded-2xl">
                   <Calendar size={20} className="text-purple-500" />
                   <div>
@@ -142,46 +131,44 @@ const CheckoutPage = () => {
                   <span className="font-nunito font-semibold">{order.theme_name}</span>
                 </div>
                 <div className="flex justify-between items-center py-2">
-                  <span className="font-nunito text-slate-600">Venue</span>
-                  <span className="font-nunito font-semibold">{order.venue_name}</span>
+                  <span className="font-nunito text-slate-600">Venue — {order.venue_name}</span>
+                  <span className="font-nunito font-semibold">
+                    ${parseFloat(order.price_per_day || 0).toFixed(2)}
+                  </span>
                 </div>
 
                 {/* Packages */}
                 {planPackages.length > 0 && (
-                  <>
-                    <div className="pt-2">
-                      <p className="font-nunito text-xs text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-1">
-                        <Package size={12} /> Packages
-                      </p>
-                      {planPackages.map(pkg => (
-                        <div key={pkg.package_id} className="flex justify-between items-center py-1">
-                          <span className="font-nunito text-slate-600 text-sm">— {pkg.name}</span>
-                          <span className="font-nunito font-semibold text-sm">
-                            ${parseFloat(pkg.price).toFixed(2)}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </>
+                  <div className="pt-2">
+                    <p className="font-nunito text-xs text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-1">
+                      <Package size={12} /> Packages
+                    </p>
+                    {planPackages.map(pkg => (
+                      <div key={pkg.package_id} className="flex justify-between items-center py-1">
+                        <span className="font-nunito text-slate-600 text-sm">— {pkg.name}</span>
+                        <span className="font-nunito font-semibold text-sm">
+                          ${parseFloat(pkg.price).toFixed(2)}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
                 )}
 
                 {/* Services */}
                 {planServices.length > 0 && (
-                  <>
-                    <div className="pt-2">
-                      <p className="font-nunito text-xs text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-1">
-                        <Wrench size={12} /> Services
-                      </p>
-                      {planServices.map(svc => (
-                        <div key={svc.service_id} className="flex justify-between items-center py-1">
-                          <span className="font-nunito text-slate-600 text-sm">— {svc.name}</span>
-                          <span className="font-nunito font-semibold text-sm">
-                            ${parseFloat(svc.estimated_price).toFixed(2)}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </>
+                  <div className="pt-2">
+                    <p className="font-nunito text-xs text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-1">
+                      <Wrench size={12} /> Services
+                    </p>
+                    {planServices.map(svc => (
+                      <div key={svc.service_id} className="flex justify-between items-center py-1">
+                        <span className="font-nunito text-slate-600 text-sm">— {svc.name}</span>
+                        <span className="font-nunito font-semibold text-sm">
+                          ${parseFloat(svc.estimated_price).toFixed(2)}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
                 )}
 
                 <div className="border-t border-slate-100 pt-4 flex justify-between items-center">

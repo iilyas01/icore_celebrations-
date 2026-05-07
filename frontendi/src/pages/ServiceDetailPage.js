@@ -78,14 +78,14 @@ const ServiceDetailPage = () => {
           <span className="font-nunito font-semibold">Back to Services</span>
         </button>
 
-        <div className="bg-white rounded-3xl overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.08)]">
+        <div className="bg-white rounded-3xl overflow-hidden shadow-[0_5px_20px_rgb(0,0,0,0.08)]">
           {/* Service Image Placeholder */}
-          <div className="h-85 bg-gradient-to-br from-purple-100 to-pink-100 flex items-center justify-center overflow-hidden">
+          <div className="h-55 bg-gradient-to-br from-purple-50 to-pink-50 flex items-center justify-center overflow-hidden">
             {service.image_url ? (
               <img
                 src={service.image_url}
                 alt={service.name}
-                className="w-full h-full object-cover"
+                className="w-full h-[400px] lg:h-[500px] object-cover rounded-3xl shadow-lg"
               />
             ) : (
               <span className="text-8xl">🎉</span>
@@ -102,13 +102,7 @@ const ServiceDetailPage = () => {
                   {service.name}
                 </h1>
               </div>
-              <div className="flex items-center gap-2 bg-amber-50 px-6 py-3 rounded-2xl">
-                <DollarSign size={24} className="text-amber-500" />
-                <span className="font-fredoka text-2xl text-slate-900">
-                  ${parseFloat(service.estimated_price).toFixed(2)}
-                </span>
-                <span className="font-nunito text-slate-500">est.</span>
-              </div>
+            
             </div>
 
             <div className="grid sm:grid-cols-2 gap-6 mb-8">

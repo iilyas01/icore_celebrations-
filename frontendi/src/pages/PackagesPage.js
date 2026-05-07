@@ -122,13 +122,13 @@ const PackagesPage = () => {
              </div>
            )}
            <div className="p-6">
-              {isDeluxe(pkg.name) && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                  <span className="bg-gradient-to-r from-amber-400 to-orange-400 text-white px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider shadow-lg">
-                    Premium
-                  </span>
-                </div>
-              )}
+           {isDeluxe(pkg.name) && (
+              <div className="absolute top-3 right-3">
+                <span className="bg-gradient-to-r from-amber-400 to-orange-400 text-white px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider shadow-lg">
+                  Premium
+                </span>
+              </div>
+            )}
               
               <div className="mb-4">
                 <span className="inline-block bg-slate-100 text-slate-600 px-3 py-1 rounded-full text-xs font-semibold">

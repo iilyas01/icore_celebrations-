@@ -90,23 +90,6 @@ const PackageDetailPage = () => {
               </div>
             )}
 
-            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-8">
-              <div>
-                <span className="inline-block bg-slate-100 text-slate-600 px-3 py-1 rounded-full text-xs font-semibold mb-3">
-                  {pkg.theme_name}
-                </span>
-                <h1 className="font-fredoka text-3xl sm:text-4xl text-slate-900">
-                  {pkg.name}
-                </h1>
-              </div>
-              <div className="flex items-center gap-2 bg-amber-50 px-6 py-3 rounded-2xl">
-                <DollarSign size={24} className="text-amber-500" />
-                <span className="font-fredoka text-2xl text-slate-900">
-                  ${parseFloat(pkg.price).toFixed(2)}
-                </span>
-              </div>
-            </div>
-
             {pkg.description && (
               <div className="bg-slate-50 rounded-2xl p-6 mb-8">
                 <p className="font-nunito text-slate-600 leading-relaxed">
