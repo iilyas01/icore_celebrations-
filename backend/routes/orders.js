@@ -90,9 +90,9 @@ router.get('/my', auth, async (req, res) => {
       `SELECT o.*, p.event_date, p.guest_count, p.total_estimate,
        t.name as theme_name, v.name as venue_name
        FROM orders o
-       JOIN PLANS p ON o.plan_id = p.plan_id
-       LEFT JOIN THEMES t ON p.theme_id = t.theme_id
-       LEFT JOIN VENUES v ON p.venue_id = v.venue_id
+       JOIN plans p ON o.plan_id = p.plan_id
+       LEFT JOIN themes t ON p.theme_id = t.theme_id
+       LEFT JOIN venues v ON p.venue_id = v.venue_id
        WHERE o.user_id = ?
        ORDER BY o.submitted_at DESC`,
       [user_id]
@@ -113,9 +113,9 @@ router.get('/:id', auth, async (req, res) => {
        t.name as theme_name, v.name as venue_name,
        v.price_per_day
        FROM orders o
-       JOIN PLANS p ON o.plan_id = p.plan_id
-       LEFT JOIN THEMES t ON p.theme_id = t.theme_id
-       LEFT JOIN VENUES v ON p.venue_id = v.venue_id
+       JOIN plans p ON o.plan_id = p.plan_id
+       LEFT JOIN themes t ON p.theme_id = t.theme_id
+       LEFT JOIN venues v ON p.venue_id = v.venue_id
        WHERE o.order_id = ? AND o.user_id = ?`,
       [req.params.id, req.user.user_id]
     );

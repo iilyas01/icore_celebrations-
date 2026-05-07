@@ -38,10 +38,10 @@ router.get('/orders', auth, adminOnly, async (req, res) => {
         t.name AS theme_name,                     -- Theme name (LEFT JOIN so null if no theme)
         v.name AS venue_name                      -- Venue name (LEFT JOIN so null if no venue)
       FROM orders o
-      JOIN USERS u ON o.user_id = u.user_id       -- Inner join: every order must have a user
-      JOIN PLANS p ON o.plan_id = p.plan_id       -- Inner join: every order must have a plan
-      LEFT JOIN THEMES t ON p.theme_id = t.theme_id   
-      LEFT JOIN VENUES v ON p.venue_id = v.venue_id   
+      JOIN users u ON o.user_id = u.user_id       -- Inner join: every order must have a user
+      JOIN plans p ON o.plan_id = p.plan_id       -- Inner join: every order must have a plan
+      LEFT JOIN themes t ON p.theme_id = t.theme_id   
+      LEFT JOIN venues v ON p.venue_id = v.venue_id   
       ORDER BY o.submitted_at DESC                
     `);
     res.json(orders); // Send the array of orders as JSON
