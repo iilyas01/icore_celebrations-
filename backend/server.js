@@ -23,7 +23,7 @@ app.get('/', (req, res) => {
 
 app.get('/test-db', async (req, res) => {
   try {
-    const [rows] = await db.query('SELECT * FROM themes LIMIT 3');
+    const [rows] = await db.query('SELECT * FROM `themes` LIMIT 3');
     res.json(rows);
   } catch (err) {
     res.status(500).json({ error: err.message });
