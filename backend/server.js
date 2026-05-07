@@ -31,6 +31,16 @@ app.get('/', (req, res) => {
 //use port from .env file or default to 3001 if not set
 const PORT = process.env.PORT || 3001;
 
+app.get('/test-db', async (req, res) => {
+  try {
+    const db = require('./db');
+    const [rows] = await db.query('SHOW TABLES');
+    res.json(rows);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
   // Test database connection when server starts 
