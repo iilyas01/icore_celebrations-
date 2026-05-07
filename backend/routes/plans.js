@@ -14,7 +14,7 @@ const recalculateTotal = async (plan_id) => {
     const [planRows] = await db.query(
       `SELECT p.*, v.price_per_day 
        FROM plans p 
-       JOIN VENUES v ON p.venue_id = v.venue_id 
+       JOIN venues v ON p.venue_id = v.venue_id 
        WHERE p.plan_id = ?`,
       [plan_id]
     );
@@ -64,7 +64,7 @@ router.get('/my', auth, async (req, res) => {
       SELECT p.*, t.name as theme_name, v.name as venue_name
       FROM plans p
       LEFT JOIN THEMES t ON p.theme_id = t.theme_id
-      LEFT JOIN VENUES v ON p.venue_id = v.venue_id
+      LEFT JOIN venues v ON p.venue_id = v.venue_id
       WHERE p.user_id = ?
       ORDER BY p.created_at DESC
       LIMIT 1
