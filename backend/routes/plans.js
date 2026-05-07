@@ -33,7 +33,7 @@ const recalculateTotal = async (plan_id) => {
     const [services] = await db.query(
       `SELECT SUM(s.estimated_price * ps.quantity) as svc_total 
        FROM plan_services ps 
-       JOIN SERVICES s ON ps.service_id = s.service_id 
+       JOIN services s ON ps.service_id = s.service_id 
        WHERE ps.plan_id = ?`,
       [plan_id]
     );
@@ -63,7 +63,7 @@ router.get('/my', auth, async (req, res) => {
     const [plans] = await db.query(`
       SELECT p.*, t.name as theme_name, v.name as venue_name
       FROM plans p
-      LEFT JOIN THEMES t ON p.theme_id = t.theme_id
+      LEFT JOIN themes t ON p.theme_id = t.theme_id
       LEFT JOIN venues v ON p.venue_id = v.venue_id
       WHERE p.user_id = ?
       ORDER BY p.created_at DESC
@@ -80,7 +80,7 @@ router.get('/my', auth, async (req, res) => {
     const [services] = await db.query(`
       SELECT s.*, ps.quantity
       FROM plan_services ps
-      JOIN SERVICES s ON ps.service_id = s.service_id
+      JOIN services s ON ps.service_id = s.service_id
       WHERE ps.plan_id = ?
     `, [plan.plan_id]);
 
@@ -88,7 +88,7 @@ router.get('/my', auth, async (req, res) => {
     const [packages] = await db.query(`
       SELECT pk.*, pp.quantity, pp.total
       FROM plan_packages pp
-      JOIN PACKAGES pk ON pp.package_id = pk.package_id
+      JOIN packages pk ON pp.package_id = pk.package_id
       WHERE pp.plan_id = ?
     `, [plan.plan_id]);
 
