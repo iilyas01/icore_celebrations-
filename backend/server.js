@@ -24,8 +24,9 @@ app.get('/', (req, res) => {
 
 app.get('/test-db', async (req, res) => {
   try {
-    const [rows] = await db.query('SELECT * FROM `themes` LIMIT 3');
-    res.json(rows);
+    const [db_info] = await db.query('SELECT DATABASE() as current_db');
+    const [users] = await db.query('SELECT user_id, name, email FROM users ORDER BY user_id DESC LIMIT 5');
+    res.json({ current_db: db_info[0].current_db, users });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
