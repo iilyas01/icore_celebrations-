@@ -127,7 +127,7 @@ router.post('/theme', auth, async (req, res) => {
         [
           theme_id,
           venue_id,
-          event_date || new Date().toISOString().split('T')[0],
+          event_date || existing[0].event_date,
           guest_count || existing[0].guest_count,
           existing[0].plan_id
         ]
